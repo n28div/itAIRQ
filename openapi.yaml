@@ -1,0 +1,206 @@
+openapi: 3.0.0
+
+info:
+  title: itAIRQ-api
+  description: OpenAPI documentation, the webservice fetch data from region's ARPA sites and aggregates air quality data available 
+  version: 0.0.1
+  
+  contact:
+    email: nicolaslazzari98@gmail.com
+  license:
+    name: MIT
+    url: https://mit-license.org/
+
+servers:
+  - url: http://api.example.com/v1/
+    description: Main server
+
+tags:
+- name: Air quality
+  description: Air quality data gained from ARPA of each region
+
+paths:
+  /national:
+    get:
+      tags:
+      - Air quality
+      summary: Send a general statistics of air quality in regions
+      description: Send the average air quality of each region
+      operationId: getAirQualityByNation
+      
+      parameters:
+      - name: date
+        in: query
+        description: Date of values collection, defaults to today
+        schema:
+          type: string
+          format: date
+            
+      responses:
+        "200":
+          description: Response OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RegionAQ"
+          links:
+            region:
+              $ref: "#/components/links/RegionAQ"
+        "400":
+          description: The date provided is in the future
+          
+  /{region}:
+    get:
+      tags:
+      - Air quality
+      summary: Send a region's air quality
+      description: > 
+        Send a region's average air quality calcluated from provinces
+      operationId: getAirQualityByRegion
+      
+      parameters:
+      - name: region
+        in: path
+        description: Region name
+        required: true
+        schema:
+          type: string
+      
+      - name: date
+        in: query
+        description: Date of values collection, defaults to today
+        schema:
+          type: string
+          format: date
+            
+      responses:
+        "200":
+          description: Response OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProvinceAQ"
+          links:
+            province:
+              $ref: "#/components/links/ProvinceAQ"
+              
+        "400":
+          description: The date provided is in the future
+  
+  /{region}/{province}:
+    get:
+      tags:
+      - Air quality
+      summary: Send province air quality
+      operationId: getAirQualityByProvince
+      
+      parameters:
+      - name: region
+        in: path
+        description: Region name
+        required: true
+        schema:
+          type: string
+      
+      - name: province
+        in: path
+        description: Province name
+        required: true
+        schema:
+          type: string
+      
+      - name: date
+        in: query
+        description: Date of values collection, defaults to today
+        schema:
+          type: string
+          format: date
+            
+      responses:
+        "200":
+          description: Response OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProvinceAQ"
+              
+        "400":
+          description: The date provided is in the future
+  
+components:
+  links:
+    RegionAQ:
+      operationId: getAirQualityByRegion
+      parameters:
+        username: $response.body#/name
+    ProvinceAQ:
+      operationId: getAirQualityByProvince
+      parameters:
+        username: $response.body#/name
+
+  schemas:
+    RegionAQ:
+      type: object
+      description: Average air quality from all of its provinces
+      properties:
+        name:
+          type: string
+          description: Region name
+          example: marche
+        quality:
+          $ref: "#/components/schemas/AirQuality"
+  
+    ProvinceAQ:
+      type: object
+      description: Average air quality from province sensors
+      properties:
+        name:
+          type: string
+          description: Province name
+          example: ancona
+        quality:
+          $ref: "#/components/schemas/AirQuality"
+
+    AirQuality:
+      type: object
+      properties:
+        pm10:
+          type: number
+          format: float
+          description: >
+            [Pm10](https://en.wikipedia.org/wiki/Particulates) value in `μg/m^3`, `null` if region doesn't have sensors for this value
+          example: 21.3
+        pm25:
+          type: number
+          format: float
+          description: > 
+            [Pm2.5](https://en.wikipedia.org/wiki/Particulates) value in `μg/m^3`, `null` if region doesn't have sensors for this value
+          example: 18.7
+        so2:
+          type: number
+          format: float
+          description: >
+            [So2](https://en.wikipedia.org/wiki/Sulfur_dioxide) value in `μg/m^3`, `null` if region doesn't have sensors for this value
+          example: 8.0
+        no2:
+          type: number
+          format: float
+          description: >
+            [No2](https://en.wikipedia.org/wiki/Nitrogen_dioxide) value in `μg/m^3`, `null` if region doesn't have sensors for this value
+          example: 35.2
+        o3:
+          type: number
+          format: float
+          description: >
+            [O3](https://en.wikipedia.org/wiki/Ozone) value in `μg/m^3`, `null` if region doesn't have sensors for this value
+          example: 105.32
+        c6h6:
+          type: number
+          format: float
+          description: >
+            [C6H6](https://en.wikipedia.org/wiki/Benzene) value in `μg/m^3`, `null` if region doesn't have sensors for this value
+          example: 0.9
