@@ -1,11 +1,14 @@
+from .quality import AirQuality 
+
 class BaseProvince(object):
     """
     Class representing an italian province (Milano, Roma...)
     """
     name = None
     short_name = None
+    quality = None
 
-    def __init__(name=None, short_name=None):
+    def __init__(self, name=None, short_name=None):
         """
         :param name: The region's name (Roma, Milano, Torino...)
         :param name: The region's name (RM, MI, TO...)
@@ -22,3 +25,13 @@ class BaseProvince(object):
                 raise TypeError('short_name of the region not set')
             else:
                 self.short_name = short_name
+
+        self.quality = AirQuality()
+
+    async def fetch_air_quality(self, day):
+        """
+        Populate the air quality of the provinces
+
+        :param day: The day of which the air quality wants to be known (instance of `~datetime`)
+        """
+        raise NotImplementedError

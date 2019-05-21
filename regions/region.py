@@ -1,4 +1,6 @@
-from province import BaseProvince
+from .province import BaseProvince
+import asyncio
+from datetime import datetime
 
 class BaseRegion(object):
     """
@@ -22,14 +24,14 @@ class BaseRegion(object):
         return '<Region %s - %d provinces>' % (self.name, len(self.provinces))
 
     @property
-    def provinces(self): return self.provinces
+    def provinces(self): return self._provinces
 
     def add_province(self, province):
         """
         :raises TypeError: `province` is not subclass of `~province.BaseProvince`
         :raises ValueError: The province is already present
         """
-        if issubclass(province, BaseProvince):
+        if isinstance(province, BaseProvince):
             if province in self.provinces:
                 raise ValueError('province %s is already present' % province)
             else:
@@ -37,4 +39,19 @@ class BaseRegion(object):
         else:
             raise TypeError('province must subclass BaseProvice')
 
+    async def fetch_air_quality(self, day):
+        """
+        Populate the air quality of the provinces
 
+        :param day: The day of which the air quality wants to be known (instance of `~datetime`)
+        """
+        if not isinstance(day, datetime):
+            raise TypeError('day should be a datetime instance')
+
+        loop = asyncio.get_event_loop()
+        tasks = list()
+
+        for p in self.provinces:
+            tasks.append(loop.create_task(p.fetch_air_quality(day)))
+
+        loop.run_until_complete(tasks)
