@@ -1,6 +1,7 @@
 from .province import BaseProvince
 import asyncio
 from datetime import datetime
+from typing import List
 
 class BaseRegion(object):
     """
@@ -9,7 +10,7 @@ class BaseRegion(object):
     name = None
     _provinces = list()
 
-    def __init__(self, name=None):
+    def __init__(self, name:str=None):
         """
         :param name: The region's name
         :raises TypeError: The param name is not specified
@@ -20,13 +21,14 @@ class BaseRegion(object):
             else:
                 self.name = name
 
-    def __str__(self):
+    def __str__(self) -> str:
         return '<Region %s - %d provinces>' % (self.name, len(self.provinces))
 
     @property
-    def provinces(self): return self._provinces
+    def provinces(self) -> List[BaseProvince]: 
+        return self._provinces
 
-    def add_province(self, province):
+    def add_province(self, province:BaseProvince):
         """
         :raises TypeError: `province` is not subclass of `~province.BaseProvince`
         :raises ValueError: The province is already present
@@ -39,7 +41,7 @@ class BaseRegion(object):
         else:
             raise TypeError('province must subclass BaseProvice')
 
-    async def fetch_air_quality(self, day):
+    async def fetch_air_quality(self, day:datetime):
         """
         Populate the air quality of the provinces
 

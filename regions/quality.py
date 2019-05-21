@@ -1,3 +1,5 @@
+from typing import Dict
+
 class AirQuality(object):
     """
     Class that represents the values that a province could provide
@@ -10,7 +12,7 @@ class AirQuality(object):
     pm25 = None
     c6h6 = None
 
-    def __str__(self):
+    def __str__(self) -> str:
         return '< SO2:%f NO2:%f CO:%f O3:%f Pm10:%f Pm2,5:%f C6H6:%f >' % (
             self.so2,
             self.no2,
@@ -21,7 +23,7 @@ class AirQuality(object):
             self.c6h6
         )
 
-    def asdict(self):
+    def asdict(self) -> Dict[str, str]:
         """
         :returns: The object as a dict
         """

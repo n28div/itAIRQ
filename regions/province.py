@@ -1,4 +1,5 @@
-from .quality import AirQuality 
+from .quality import AirQuality
+from datetime import datetime
 
 class BaseProvince(object):
     """
@@ -8,7 +9,7 @@ class BaseProvince(object):
     short_name = None
     quality = None
 
-    def __init__(self, name=None, short_name=None):
+    def __init__(self, name:str=None, short_name:str=None):
         """
         :param name: The region's name (Roma, Milano, Torino...)
         :param name: The region's name (RM, MI, TO...)
@@ -28,7 +29,7 @@ class BaseProvince(object):
 
         self.quality = AirQuality()
 
-    async def fetch_air_quality(self, day):
+    async def fetch_air_quality(self, day:datetime):
         """
         Populate the air quality of the provinces
 
