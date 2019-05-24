@@ -1,11 +1,9 @@
-import asyncio
 from datetime import datetime
 from regions.valle_d_aosta import ValleDAosta
 
-loop = asyncio.get_event_loop()
-va = ValleDAosta()
-
-loop.run_until_complete(va.fetch_air_quality(datetime(year=2019, month=1, day=1)))
+r = ValleDAosta()
+r.fetch_air_quality(datetime(year=2019, month=1, day=1))
+r.wait_for_quality()
 
 # only one province
 expected_air_quality = {
@@ -19,7 +17,7 @@ expected_air_quality = {
 
 def test_air_quality_response():
     # only one province
-    province = va.provinces[0]
+    province = r.provinces[0]
     air_quality = province.quality.asdict()
     
     for key in air_quality.keys():
