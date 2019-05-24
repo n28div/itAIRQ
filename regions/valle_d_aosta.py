@@ -1,5 +1,5 @@
-from region import BaseRegion
-from province import BaseProvince
+from .region import BaseRegion
+from .province import BaseProvince
 import requests
 import asyncio
 import functools
