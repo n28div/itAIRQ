@@ -12,49 +12,43 @@ class ValleDAosta(BaseRegion):
     name = "Valle d'Aosta"
 
     def __init__(self):
-        super(BaseRegion, self).__init__()
+        super().__init__()
 
         # adding provinces
         self.add_province(BaseProvince(name='Aosta', short_name='AO'))
 
-    async def fetch_air_quality(self, day):
+    def _fetch_air_quality_routine(self, day):
         """
         Populate the air quality of the provinces
         data is fetched from `http://www.arpa.vda.it/it/aria/la-qualit%C3%A0-dell-aria/stazioni-di-monitoraggio/inquinanti-export-dati`
 
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
-        loop = asyncio.get_event_loop()
-        future = loop.run_in_executor(
-            None, 
-            functools.partial(
-                requests.post, 
-                'http://www.arpa.vda.it/it/aria/la-qualit%C3%A0-dell-aria/stazioni-di-monitoraggio/dati-e-grafici',
-                data = [
-                    ('exportRilev', 'si'),
-                    ('beginExportDate', day.strftime('%d/%m/%Y')),
-                    ('endExportDate', day.strftime('%d/%m/%Y')),
-                    ('stazioniExport[]', '4000'),
-                    ('stazioniExport[]', '4120'),
-                    ('stazioniExport[]', '4160'),
-                    ('stazioniExport[]', '4040'),
-                    ('stazioniExport[]', '4110'),
-                    ('stazioniExport[]', '4050'),
-                    ('parametriExport[]', '1000-1-1'),
-                    ('parametriExport[]', '1000-4-1'),
-                    ('parametriExport[]', '1030-1-1'),
-                    ('parametriExport[]', '1030-4-1'),
-                    ('parametriExport[]', '1040-5-1'),
-                    ('parametriExport[]', '1060-4-1'),
-                    ('parametriExport[]', '1060-5-1'),
-                    ('parametriExport[]', '1110-1-1'),
-                    ('parametriExport[]', '1110-7-3'),
-                    ('parametriExport[]', '1120-1-1'),
-                    ('parametriExport[]', '2000-1-1'),
-                ]
-            )
+        res = requests.post( 
+            'http://www.arpa.vda.it/it/aria/la-qualit%C3%A0-dell-aria/stazioni-di-monitoraggio/dati-e-grafici',
+            data = [
+                ('exportRilev', 'si'),
+                ('beginExportDate', day.strftime('%d/%m/%Y')),
+                ('endExportDate', day.strftime('%d/%m/%Y')),
+                ('stazioniExport[]', '4000'),
+                ('stazioniExport[]', '4120'),
+                ('stazioniExport[]', '4160'),
+                ('stazioniExport[]', '4040'),
+                ('stazioniExport[]', '4110'),
+                ('stazioniExport[]', '4050'),
+                ('parametriExport[]', '1000-1-1'),
+                ('parametriExport[]', '1000-4-1'),
+                ('parametriExport[]', '1030-1-1'),
+                ('parametriExport[]', '1030-4-1'),
+                ('parametriExport[]', '1040-5-1'),
+                ('parametriExport[]', '1060-4-1'),
+                ('parametriExport[]', '1060-5-1'),
+                ('parametriExport[]', '1110-1-1'),
+                ('parametriExport[]', '1110-7-3'),
+                ('parametriExport[]', '1120-1-1'),
+                ('parametriExport[]', '2000-1-1'),
+            ]
         )
-        res = await future
         
         header = ('parametro','statistica','scala','data','stazione','valore')
         parsed_csv = list(csv.DictReader(res.text.split('\n')[1:], fieldnames=header, delimiter=','))
@@ -95,3 +89,5 @@ class ValleDAosta(BaseRegion):
                 if row['parametro'] == 'Biossido di azoto' and 
                    row['scala'] == 'Giornaliera' ]
         if len(no2) > 0: province.quality.no2 = round(sum(no2) / len(no2), 2)
+
+        if self.on_quality_fetched is not None: self.on_quality_fetched(self)

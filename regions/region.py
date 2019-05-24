@@ -1,7 +1,8 @@
 from .province import BaseProvince
-import asyncio
 from datetime import datetime
 from typing import List
+import threading
+from time import sleep
 
 class BaseRegion(object):
     """
@@ -9,6 +10,7 @@ class BaseRegion(object):
     """
     name = None
     _provinces = list()
+    on_quality_fetched = None
 
     def __init__(self, name:str=None):
         """
@@ -20,6 +22,8 @@ class BaseRegion(object):
                 raise TypeError('name of the region not set')
             else:
                 self.name = name
+
+        self._thread = threading.Thread(target=self._fetch_air_quality_routine)
 
     def __str__(self) -> str:
         return '<Region %s - %d provinces>' % (self.name, len(self.provinces))
@@ -46,19 +50,29 @@ class BaseRegion(object):
         else:
             raise TypeError('province must subclass BaseProvice')
 
-    async def fetch_air_quality(self, day:datetime):
+    def fetch_air_quality(self, day:datetime):
         """
-        Populate the air quality of the provinces
+        Launch the thread that fetches the air quality
 
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
         if not isinstance(day, datetime):
             raise TypeError('day should be a datetime instance')
+        
+        if not self._thread.is_alive():
+            self._thread._args = (day,)
+            self._thread.start()
 
-        loop = asyncio.get_event_loop()
-        tasks = list()
+    def wait_for_quality(self):
+        """
+        Waits until the fetching air quality routine has stopped
+        """
+        self._thread.join()
 
-        for p in self.provinces:
-            tasks.append(loop.create_task(p.fetch_air_quality(day)))
+    def _fetch_air_quality_routine(self, day):
+        """
+        Fetches and sets the variabile quality
 
-        loop.run_until_complete(tasks)
+        :param day: The day of which the air quality wants to be known (instance of `~datetime`)
+        """
+        raise NotImplementedError
