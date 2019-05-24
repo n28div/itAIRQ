@@ -27,6 +27,11 @@ class BaseRegion(object):
     @property
     def provinces(self) -> List[BaseProvince]: 
         return self._provinces
+    
+    def province_by_name(self, name) -> BaseProvince:
+        for p in self.provinces:
+            if p.name == name:
+                return p
 
     def add_province(self, province:BaseProvince):
         """
