@@ -30,6 +30,7 @@ class AirQuality(object):
         return {
             'SO2': self.so2,
             'NO2': self.no2,
+            'CO': self.co,
             'O3': self.o3,
             'Pm10': self.pm10,
             'Pm2,5': self.pm25,
