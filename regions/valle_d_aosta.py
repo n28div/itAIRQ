@@ -61,9 +61,9 @@ class ValleDAosta(BaseRegion):
                    row['scala'] == 'Giornaliera' ]
         if len(so2) > 0: province.quality.so2 = round(sum(so2) / len(so2), 2)
         
-        co2 = [float(row['valore']) for row in parsed_csv 
+        co = [float(row['valore']) for row in parsed_csv 
                 if row['parametro'] == 'Monossido di carbonio']
-        if len(co2) > 0: province.quality.co2 = round(sum(co2) / len(co2), 2)
+        if len(co) > 0: province.quality.co = round(sum(co) / len(co), 2)
         
         o3 = [float(row['valore']) for row in parsed_csv 
                 if row['parametro'] == 'Ozono' and 
