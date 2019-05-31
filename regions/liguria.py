@@ -98,8 +98,7 @@ class Liguria(BaseRegion):
     def _fetch_air_quality_routine(self, day: datetime):
         """
         Populate the air quality of the provinces
-        Fetches data from `http://www.arpa.veneto.it/arpavinforma/bollettini/aria/aria_dati_validati_storico.php`
-
+        
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
         self.set_indicator_value(day, 'co')
