@@ -108,7 +108,7 @@ paths:
       
       - name: province
         in: path
-        description: Province name
+        description: Province long name (ancona) or short name (AN) 
         required: true
         schema:
           type: string
@@ -204,3 +204,9 @@ components:
           description: >
             [C6H6](https://en.wikipedia.org/wiki/Benzene) value in `μg/m^3`, `null` if region doesn't have sensors for this value
           example: 0.9
+        co:
+          type: number
+          format: float
+          description: >
+            [CO](https://en.wikipedia.org/wiki/Carbon_monoxide) value in `μg/m^3`, `null` if region doesn't have sensors for this value
+          example: 2.4
