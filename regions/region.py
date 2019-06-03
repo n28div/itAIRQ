@@ -9,7 +9,6 @@ class BaseRegion(object):
     Represents an italian region (Marche, Sicilia...)
     """
     name = None
-    _provinces = list()
     on_quality_fetched = None
 
     def __init__(self, name:str=None):
@@ -24,6 +23,7 @@ class BaseRegion(object):
                 self.name = name
 
         self._thread = threading.Thread(target=self._fetch_air_quality_routine)
+        self._provinces = list()
 
     def __str__(self) -> str:
         return '<Region %s - %d provinces>' % (self.name, len(self.provinces))
@@ -68,6 +68,13 @@ class BaseRegion(object):
         Waits until the fetching air quality routine has stopped
         """
         self._thread.join()
+
+    @property
+    def running(self) -> bool:
+        """
+        :return: Wether the region is currently fetching data
+        """
+        return self._thread.is_alive()
 
     def _fetch_air_quality_routine(self, day):
         """

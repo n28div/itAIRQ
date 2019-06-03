@@ -55,9 +55,14 @@ class Liguria(BaseRegion):
 
         res = requests.post('http://www.cartografiarl.regione.liguria.it/SiraQualAria/script/Pub3AccessoDatiAria13.asp',
                             data=data)
+        
         soup = BeautifulSoup(res.text, 'html.parser')
         # a unique needs to be provided when a request is made, it is sent to the user in form of an hidden field
-        id_richiesta = soup.find_all('input', {'name': 'Id_Richiesta'})[0]['value']
+        try:
+            id_richiesta = soup.find_all('input', {'name': 'Id_Richiesta'})[0]['value']
+        except:
+            # data for the selected day not available
+            return
 
         map_data = self.indicator_map[indicator]
         res = requests.get('http://www.cartografiarl.regione.liguria.it/SiraQualAria/script/Pub3AccessoDatiAria131.asp',
