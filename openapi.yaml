@@ -45,12 +45,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/RegionAQ"
-          links:
-            region:
-              $ref: "#/components/links/RegionAQ"
-        "400":
-          description: The date provided is in the future
-          
+                
   /{region}:
     get:
       tags:
@@ -84,9 +79,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ProvinceAQ"
-          links:
-            province:
-              $ref: "#/components/links/ProvinceAQ"
               
         "400":
           description: The date provided is in the future
@@ -162,6 +154,10 @@ components:
           type: string
           description: Province name
           example: ancona
+        short:
+          type: string
+          description: Province short name
+          example: AN
         quality:
           $ref: "#/components/schemas/AirQuality"
 
