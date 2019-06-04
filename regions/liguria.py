@@ -85,20 +85,22 @@ class Liguria(BaseRegion):
         extractor.parse()
         # remove header
         table_data = extractor.return_list()[1:]
-        # remove any row after the first blank
-        table_data = table_data[:next(idx for idx, y in enumerate(table_data) if len(y) == 0)]
+        
+        if len(table_data) > 0:
+            # remove any row after the first blank
+            table_data = table_data[:next(idx for idx, y in enumerate(table_data) if len(y) == 0)]
 
-        for province in self.provinces:
-            values = list()
-            for x in table_data:
-                if province.short_name in x[1]:
-                    try:
-                        values.append(float(x[map_data['table_idx']].strip()))
-                    except:
-                        pass 
-            
-            if len(values) != 0:
-                setattr(province.quality, indicator, round(float(sum(values) / len(values)), 2))
+            for province in self.provinces:
+                values = list()
+                for x in table_data:
+                    if province.short_name in x[1]:
+                        try:
+                            values.append(float(x[map_data['table_idx']].strip()))
+                        except:
+                            pass 
+                
+                if len(values) != 0:
+                    setattr(province.quality, indicator, round(float(sum(values) / len(values)), 2))
 
     def _fetch_air_quality_routine(self, day: datetime):
         """
