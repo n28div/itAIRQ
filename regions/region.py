@@ -82,4 +82,5 @@ class BaseRegion(object):
 
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
-        raise NotImplementedError
+        if day > datetime.today():
+            raise ValueError('%s is in the future and cannot be used!' % day)

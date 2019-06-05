@@ -79,6 +79,8 @@ class Lombardia(BaseRegion):
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
         # calculate date
+        super()._fetch_air_quality_routine(day)
+
         start_date = day.strftime('%Y-%m-%dT00:00.000')
         
         today = datetime.now()

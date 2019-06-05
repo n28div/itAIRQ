@@ -108,6 +108,8 @@ class Liguria(BaseRegion):
         
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
+        super()._fetch_air_quality_routine(day)
+
         self.set_indicator_value(day, 'co')
         self.set_indicator_value(day, 'so2')
         self.set_indicator_value(day, 'no2')

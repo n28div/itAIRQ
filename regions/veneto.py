@@ -55,6 +55,8 @@ class Veneto(BaseRegion):
 
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
+        super()._fetch_air_quality_routine(day)
+
         for province in self.provinces: 
             data = {
                 'provincia': province.name.lower(),

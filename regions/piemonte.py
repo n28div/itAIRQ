@@ -115,6 +115,8 @@ class Piemonte(BaseRegion):
 
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
+        super()._fetch_air_quality_routine(day)
+
         for x in self.indicator_map.keys():
             self.fetch_indicator(day, x)
 
