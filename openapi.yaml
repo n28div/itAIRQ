@@ -20,21 +20,37 @@ tags:
   description: Air quality data gained from ARPA of each region
 
 paths:
-  /national:
+  /{year}/{month}/{day}:
     get:
       tags:
       - Air quality
-      summary: Send a general statistics of air quality in regions
-      description: Send the average air quality of each region
+      summary: National air quality
+      description: Sends the average air quality of each region
       operationId: getAirQualityByNation
       
       parameters:
-      - name: date
-        in: query
-        description: Date of values collection, defaults to today
+      - name: year
+        in: path
+        required: true
+        description: Year of interest
         schema:
-          type: string
-          format: date
+          type: number
+          format: int
+      - name: month
+        in: path
+        required: true
+        description: Month of interest
+        schema:
+          type: number
+          format: int
+      - name: day
+        in: path
+        required: true
+        description: Day of interest
+        schema:
+          type: number
+          format: int
+          
             
       responses:
         "200":
@@ -49,16 +65,37 @@ paths:
             GetRegionAirQuality:
               $ref: "#/components/links/GetRegionAQ"
 
-  /{region}:
+  /{year}/{month}/{day}/{region}:
     get:
       tags:
       - Air quality
-      summary: Send a region's air quality
+      summary: Regional air quality
       description: > 
-        Send a region's average air quality calcluated from provinces
+        Send a region's average air quality calculated from provinces
       operationId: getAirQualityByRegion
       
       parameters:
+      - name: year
+        in: path
+        required: true
+        description: Year of interest
+        schema:
+          type: number
+          format: int
+      - name: month
+        in: path
+        required: true
+        description: Month of interest
+        schema:
+          type: number
+          format: int
+      - name: day
+        in: path
+        required: true
+        description: Day of interest
+        schema:
+          type: number
+          format: int
       - name: region
         in: path
         description: Region name
@@ -92,14 +129,38 @@ paths:
         "404":
           description: Region not found
   
-  /{region}/{province}:
+  /{year}/{month}/{day}/{region}/{province}:
     get:
       tags:
       - Air quality
-      summary: Send province air quality
+      summary: Provincial air quality
+      description: > 
+        Send a province's average air quality
       operationId: getAirQualityByProvince
       
       parameters:
+      - name: year
+        in: path
+        required: true
+        description: Year of interest
+        schema:
+          type: number
+          format: int
+      - name: month
+        in: path
+        required: true
+        description: Month of interest
+        schema:
+          type: number
+          format: int
+      - name: day
+        in: path
+        required: true
+        description: Day of interest
+        schema:
+          type: number
+          format: int
+          
       - name: region
         in: path
         description: Region name
@@ -113,14 +174,7 @@ paths:
         required: true
         schema:
           type: string
-      
-      - name: date
-        in: query
-        description: Date of values collection, defaults to today
-        schema:
-          type: string
-          format: date
-            
+          
       responses:
         "200":
           description: Response OK

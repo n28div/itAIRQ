@@ -1,125 +1,143 @@
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, url_for
 import settings
 from datetime import datetime
 from regions import regions_list
 from regions.quality import AirQuality
+from statistics import mean
 
 app = Flask(__name__)
 app.secret_key = settings.flask['SECRET_KEY']
 
-@app.route('/api/v1/national', methods=['GET'])
-def national_data():
+def absolute_url_for(url_name: str, date, **values) -> str:
     """
-    Endpoint for national data
+    Calculate the absolute url for url_name joined with values
+
+    :param url_name: The url name
+    :param **values: The values required by url_for
+    :return: The absolute url
     """
-    response = list() # response is a list of JSON object
-    
-    if 'date' in request.args:
-        date = datetime.strptime(request.args['date'], '%Y-%m-%d')
+    with app.app_context():
+        day = date.strftime('%d')
+        month = date.strftime('%m')
+        year = date.strftime('%Y')
+        return request.url_root[:-1] + url_for(url_name, day=day, month=month, year=year, **values)
 
-        if date > datetime.now(): abort(400)
-    else:
-        date = datetime.now()
+def region_air_quality(date: datetime, regions: list) -> list:
+    """
+    :param regions: Regions of interest
+    :return: A list of dict representing the air quality of each region
+    """
+    response = list()
 
-    # Create all the regions instances
-    regions = [r() for r in regions_list]
+    if date > datetime.now():
+        raise ValueError('Date is in the future!')
 
-    # Ask to all the regions to fetch the data
+    regions = [r() for r in regions]
+
+    # fetch air quality of each region
     for r in regions:
         r.fetch_air_quality(date)
     
     # gather results from all regions
     for r in regions:
+        # wait until region has fetched his data
         r.wait_for_quality()
+
         region_res = dict()
         region_res['name'] = r.name
-        region_res['provinces'] = [{'name': p.name, 'short': p.short_name} for p in r.provinces]
-        region_quality = dict()
-
-        air_quality = [p.quality for p in r.provinces]
-        attributes = air_quality[0].__dict__.keys()
-
-        for attribute in attributes:
-            attributes_values = [getattr(q, attribute) for q in air_quality]
-            # remove None values, if present
-            attributes_values = [x for x in attributes_values if x is not None]
-
-            if len(attributes_values) > 0:
-                region_quality[attribute] = round(sum(attributes_values) / len(attributes_values), 2)
-            else:
-                region_quality[attribute] = None
-            
-        region_res['quality'] = region_quality
+        region_res['href'] = absolute_url_for('regional_data', date, region_name=r.name.lower())
+        # set provinces quality
+        region_res['provinces'] = [
+            {
+                'name': p.name, 
+                'short': p.short_name,
+                'quality': p.quality.asdict(), 
+                'href': absolute_url_for('provincial_data', 
+                                         date,
+                                         region_name=r.name.lower(),
+                                         province_name=p.short_name.lower())
+            } 
+            for p in r.provinces
+        ]
+        
         response.append(region_res)
+
+    return response
+
+@app.route('/api/v1/<int:year>/<int:month>/<int:day>/', methods=['GET'])
+def national_data(year, month, day):
+    """
+    Endpoint for national data
+    """
+    response = list()
+    date = datetime(year=year, month=month, day=day)
+
+    # get quality of all region
+    try:
+        regions = region_air_quality(date, regions_list)
+    except ValueError:
+        abort(400)
+
+    # Calculate the mean value of each region
+    aq_indicators = AirQuality().asdict().keys()
+
+    for r in regions:
+        region_dict = dict()
+        region_dict['name'] = r['name']
+        region_dict['href'] = r['href']
+        
+        for indicator in aq_indicators:
+            values = [p['quality'][indicator] for p in r['provinces'] if p['quality'][indicator] is not None]
+            
+            if len(values) > 0:
+                region_dict[indicator] = round(mean(values), 2)
+            else:
+                region_dict[indicator] = None
+        
+        response.append(region_dict)
 
     return jsonify(response)
 
-@app.route('/api/v1/<string:region_name>')
-def regional_data(region_name):
+@app.route('/api/v1/<int:year>/<int:month>/<int:day>/<string:region_name>')
+def regional_data(year, month, day, region_name):
     """
     Endpoint for regional data
     """
+    date = datetime(year=year, month=month, day=day)    
+    
     region_name = region_name.lower()
     region = next((x for x in regions_list if x.name.lower() == region_name), None)
     if region is None:
         abort(404)
-    else:
-        # istantiate region
-        region = region()
-
-    if 'date' in request.args:
-        date = datetime.strptime(request.args['date'], '%Y-%m-%d')
-        if date > datetime.now(): abort(400)
-    else:
-        date = datetime.now()
-
-    # Get the quality of the region
-    region.fetch_air_quality(date)
-    region.wait_for_quality()
-
-    response = [
-        {'name': p.name, 'short': p.short_name, 'quality': p.quality.asdict()}
-        for p in region.provinces
-    ]
     
-    return jsonify(response)
+    # Get the quality of the region
+    return jsonify(region_air_quality(date, [region])[0])
 
-@app.route('/api/v1/<string:region_name>/<string:province_name>')
-def provincial_data(region_name, province_name):
+@app.route('/api/v1/<int:year>/<int:month>/<int:day>/<string:region_name>/<string:province_name>')
+def provincial_data(year, month, day, region_name, province_name):
     """
     Endpoint for province data
     """
+    date = datetime(year=year, month=month, day=day)
+
     region_name = region_name.lower()
     region = next((x for x in regions_list if x.name.lower() == region_name), None)
     if region is None:
         abort(404)
-    else:
-        # istantiate region
-        region = region()
-
-    if 'date' in request.args:
-        date = datetime.strptime(request.args['date'], '%Y-%m-%d')
-        if date > datetime.now(): abort(400)
-    else:
-        date = datetime.now()
-
+    
     # Get the quality of the region
-    region.fetch_air_quality(date)
-    region.wait_for_quality()
+    try:
+        region = region_air_quality(date, [region])[0]
+    except ValueError:
+        abort(400) # date is in the future
 
     province = next(
-        (p for p in region.provinces if p.name == province_name or p.short_name == province_name), 
-        None)
+        (p for p in region['provinces'] if p['name'].lower() == province_name or p['short'].lower() == province_name), 
+         None)
 
     if province is None: abort(404)
     
-    response = {
-        'name': province.name,
-        'short': province.short_name,
-        'quality': province.quality.asdict()
-    }
-    
-    return jsonify(response)
+    return jsonify(province)
 
 
 if __name__ == '__main__':
