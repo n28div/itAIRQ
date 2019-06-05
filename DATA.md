@@ -23,3 +23,16 @@
 | Licenza | Dati |
 |---|---|
 [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/deed.it)|[HTML](http://www.arpa.veneto.it/arpavinforma/bollettini/aria/aria_dati_validati_storico.php)
+
+## Trentino Alto-Adige
+La regione fornisce i dati separatamente per provincia
+
+### Provincia autonoma di Bolzano
+| Licenza | Dati |
+|---|---|
+[CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.it)|[JSON](http://dati.retecivica.bz.it/it/dataset/situazione-dell-aria/resource/8f7be5f5-a497-4c49-974f-a05fd94230e9)
+
+### Provincia autonoma di Trento
+| Licenza | Dati |
+|---|---|
+[?]()|[JSON](https://appa.alpz.it/aria/)
