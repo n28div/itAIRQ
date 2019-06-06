@@ -1,5 +1,7 @@
 # itAIRQ
-(https://itairq.herokuapp.com)
+https://itairq.herokuapp.com
+
+[![Build Status](https://travis-ci.org/n28div/itAIRQ.svg?branch=master)](https://travis-ci.org/n28div/itAIRQ)
 
 RESTful API per la qualità dell'aria in italia.
 I dati sono ottenuti dalle banche dati di ogni regione che vengono resi disponibili con varie licenze spesso sotto forma di open data.
