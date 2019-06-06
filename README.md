@@ -7,7 +7,6 @@ Sviluppato per l'esame di [Piattaforme per la gestione digitale del territorio](
 da **Nicolas Lazzari** matricola *284721*.
 
 ---
-
 * [Architettura e scelte implementative](./ARCHITECTURE.md)
 
 * [Dati utilizzati](./DATA.md)
@@ -17,4 +16,4 @@ da **Nicolas Lazzari** matricola *284721*.
 * [Deploy](./DEPLOY.md)
 
 * [Utilizzo](./USAGE.md)
----
+
