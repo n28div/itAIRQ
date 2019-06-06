@@ -5,8 +5,8 @@ from regions.trentino_altoadige import TrentinoAltoAdige
 class TrentinoAltoAdigeTest(unittest.TestCase):
     region_cls = TrentinoAltoAdige
     air_quality = {
-        'Trento': {'SO2': None, 'NO2': None, 'CO': None, 'O3': None, 'Pm10': None, 'Pm2,5': None, 'C6H6': None},
-        'Bolzano': {'SO2': 1.2, 'NO2': 48.07, 'CO': 0.26, 'O3': 126.6, 'Pm10': 17.08, 'Pm2,5': 13, 'C6H6': None},
+        'Trento': {'SO2': 3.83, 'NO2': 48.73, 'CO': 1.04, 'O3': 20.93, 'Pm10': 44.38, 'Pm2,5': 46.24, 'C6H6': None},
+        'Bolzano': {'SO2': None, 'NO2': None, 'CO': None, 'O3': None, 'Pm10': None, 'Pm2,5': None, 'C6H6': None},
     }
 
     def test_air_quality(self):
