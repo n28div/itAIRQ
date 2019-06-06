@@ -15,3 +15,9 @@ Le librerie utilizzate in questa fase sono:
  * [BeutifulSoup 4](https://www.crummy.com/software/BeautifulSoup/) utilizzata per lo scraping delle pagine HTML nel caso esso fosse necessario
  * [html-table-extractor](https://github.com/yuanxu-li/html-table-extractor) per effettuare una gestione a più alto livello delle tabelle HTML
  * [sodapy](https://github.com/xmunoz/sodapy) utilizzato per le regioni che offrono i propri dati come Open Data utilizzando [Socrata](https://www.tylertech.com/products/socrata)
+
+## Server HTTP
+Il server HTTP RESTful è stato sviluppato utilizzando la libreria [Flask](http://flask.pocoo.org/).
+Esso si occupa di aggregare i dati forniti da ogni [`BaseRegion`](regions/region.py) e di renderli disponibili attraverso richieste HTTP. 
+La documentazione delle richieste HTTP è reperibile alla [pagina dedicata](./API.md).
+L'implementazione del server è interamente contenuta nel file [app.py](./app.py).

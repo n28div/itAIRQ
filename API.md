@@ -8,9 +8,9 @@ Le richieste potrebbero impiegare anche alcuni minuti prima di inviare una rispo
 
  Endpoint | Metodo | Descrizione                            
  --- | --- | --- 
- `/api/v1/{anno}/{mese}/{giorno}`| GET | Invia la qualità media dell'aria a livello nazionale                 
- `/api/v1/{anno}/{mese}/{giorno}/{regione}`| GET | Invia la qualità dell'aria a livello regionale
- `/api/v1/{anno}/{mese}/{giorno}/{regione}/{provincia}` | GET | Invia la qualità dell'aria a livello provinciale        
+ [`/api/v1/{anno}/{mese}/{giorno}`](#Qualità-dell'aria-a-livello-nazionale)| GET | Invia la qualità media dell'aria a livello nazionale                 
+ [`/api/v1/{anno}/{mese}/{giorno}/{regione}`](#Qualità-dell'aria-a-livello-regionale)| GET | Invia la qualità dell'aria a livello regionale
+ [`/api/v1/{anno}/{mese}/{giorno}/{regione}/{provincia}`]((#Qualità-dell'aria-a-livello-provinciale)) | GET | Invia la qualità dell'aria a livello provinciale        
  ---               
 
 ## Qualità dell'aria a livello nazionale
@@ -37,6 +37,8 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
 |Codice|Descrizione|
 |---|---|
 |200|Risposta OK|
+|400|La data che si sta cercando di richiedere è nel futuro|
+
 ```json
 [
   {
@@ -96,9 +98,6 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
   }
 ]
 ```
-| | |
-|---|---|
-|400|La data che si sta cercando di richiedere è nel futuro|
 
 
 
@@ -123,6 +122,10 @@ curl --header "Accept: application/json" http://<url>/api/v1/01/01/01/lombardia
 |Codice|Descrizione|
 |---|---|
 |200|Richiesta ok|
+|400|La data che si sta cercando di richiedere è nel futuro|
+|404|La regione specificata non è stata trovata|
+
+
 ```json
 {
   "href": "http://<url api>/api/v1/2019/1/1/lombardia", 
@@ -299,10 +302,6 @@ curl --header "Accept: application/json" http://<url>/api/v1/01/01/01/lombardia
   ]
 }
 ```
-| | |
-|---|---|
-|400|La data che si sta cercando di richiedere è nel futuro|
-|404|La regione specificata non è stata trovata|
 
 ## Qualità dell'aria a livello provinciale
 `/api/v1/{anno}/{mese}/{giorno}/{regione}/{provincia}`
@@ -327,6 +326,9 @@ curl --header "Accept: application/json" http://<url>/api/v1/01/01/01/lombardia/
 |Codice|Descrizione|
 |---|---|
 |200|Richiesta ok|
+|400|La data che si sta cercando di richiedere è nel futuro|
+|404|La regione oppure la provincia specificata non è stata trovata|
+
 ```json
 {
   "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/mi", 
@@ -343,7 +345,3 @@ curl --header "Accept: application/json" http://<url>/api/v1/01/01/01/lombardia/
   "short": "MI"
 }
 ```
-| | |
-|---|---|
-|400|La data che si sta cercando di richiedere è nel futuro|
-|404|La regione oppure la provincia specificata non è stata trovata|
