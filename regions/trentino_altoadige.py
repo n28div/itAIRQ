@@ -28,7 +28,7 @@ class TrentinoAltoAdige(BaseRegion):
         :param day: The day of which the air quality wants to be known (instance of `~datetime`)
         """
         today = datetime.today()
-        if (today - day).days < 1:
+        if (today - day).days > 1:
             # data is only available for today and yesterday
             return
         
@@ -73,7 +73,7 @@ class TrentinoAltoAdige(BaseRegion):
         co = list()
 
         for station in data:
-            station_data = station['dati'][date_fmt]
+            station_data = station['dati'][date_fmt].values()
             for x in station_data:
                 if 'pm10' in x: pm10.append(x['pm10'])
                 if 'pm25' in x: pm25.append(x['pm25'])
