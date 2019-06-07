@@ -78,25 +78,7 @@ def national_data(year, month, day):
     except ValueError:
         abort(400)
 
-    # Calculate the mean value of each region
-    aq_indicators = AirQuality().asdict().keys()
-
-    for r in regions:
-        region_dict = dict()
-        region_dict['name'] = r['name']
-        region_dict['href'] = r['href']
-        
-        for indicator in aq_indicators:
-            values = [p['quality'][indicator] for p in r['provinces'] if p['quality'][indicator] is not None]
-            
-            if len(values) > 0:
-                region_dict[indicator] = round(mean(values), 2)
-            else:
-                region_dict[indicator] = None
-        
-        response.append(region_dict)
-
-    return jsonify(response)
+    return jsonify(regions)
 
 @app.route('/api/v1/<int:year>/<int:month>/<int:day>/<string:region_name>')
 def regional_data(year, month, day, region_name):
