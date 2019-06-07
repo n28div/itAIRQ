@@ -25,7 +25,7 @@ paths:
       tags:
       - Air quality
       summary: National air quality
-      description: Sends the average air quality of each region
+      description: Sends the air quality of each province of each region
       operationId: getAirQualityByNation
       
       parameters:
@@ -58,12 +58,10 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/RegionAQ"
+                $ref: "#/components/schemas/National"
           links:
             GetRegionAirQuality:
-              $ref: "#/components/links/GetRegionAQ"
+              $ref: "#/components/links/GetRegion"
 
   /{year}/{month}/{day}/{region}:
     get:
@@ -118,10 +116,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ProvinceAQ"
+                  $ref: "#/components/schemas/Province"
           links:
             GetProvinceAirQuality:
-              $ref: "#/components/links/GetProvinceAQ"
+              $ref: "#/components/links/GetProvince"
               
         "400":
           description: The date provided is in the future
@@ -181,7 +179,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProvinceAQ"
+                $ref: "#/components/schemas/Province"
               
         "400":
           description: The date provided is in the future
@@ -191,7 +189,7 @@ paths:
   
 components:
   links:
-    GetRegionAQ:
+    GetRegion:
       operationId: getAirQualityByRegion
       parameters:
         name: $response.body#/name
@@ -199,28 +197,17 @@ components:
         The `name` value returned in the response can be 
         used as the `region` parameter in `GET /{region}/`
     
-    GetProvinceAQ:
+    GetProvince:
       operationId: getAirQualityByProvince
       parameters:
         name: $response.body#/name
 
   schemas:
-    RegionAQ:
-      allOf: 
-        - $ref: "#/components/schemas/Region"
-        - type: object    
-          properties:  
-            quality:
-              $ref: "#/components/schemas/AirQuality"
+    National:
+      type: array
+      items:
+        $ref: "#/components/schemas/Region"
   
-    ProvinceAQ:
-      allOf: 
-        - $ref: "#/components/schemas/Province"
-        - type: object    
-          properties:  
-            quality:
-              $ref: "#/components/schemas/AirQuality"
-
     Region:
       type: object
       description: A region
@@ -246,6 +233,8 @@ components:
           type: string
           description: Province short name
           example: AN
+        quality:
+          $ref: "#/components/schemas/AirQuality"
       
     AirQuality:
       type: object
