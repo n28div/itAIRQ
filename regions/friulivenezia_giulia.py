@@ -9,7 +9,7 @@ class FriuliVeneziaGiulia(BaseRegion):
     """
     Implementation of FriuliVeneziaGiulia
     """
-    name = "FriuliVeneziaGiulia"
+    name = "Friuli-Venezia Giulia"
     
     indicator_map = {
         'co': {'key': 't274-vki6', 'param': 'media_mobile_8h_max'},

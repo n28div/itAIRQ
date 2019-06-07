@@ -3,6 +3,8 @@ from .piemonte import Piemonte
 from .liguria import Liguria
 from .lombardia import Lombardia
 from .veneto import Veneto
+from .friulivenezia_giulia import FriuliVeneziaGiulia
+from .trentino_altoadige import TrentinoAltoAdige
 
 regions_list = (
     ValleDAosta,
@@ -10,4 +12,6 @@ regions_list = (
     Liguria,
     Lombardia,
     Veneto,
+    FriuliVeneziaGiulia,
+    TrentinoAltoAdige
 )
