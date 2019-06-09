@@ -50,3 +50,8 @@ La regione fornisce i dati separatamente per provincia
 | Licenza | Dati |
 |---|---|
 [Italian Open Data License v2.0](https://www.dati.gov.it/content/italian-open-data-license-v20)|[JSON](https://www.dati.friuliveneziagiulia.it/browse?q=Aria&sortBy=relevance)
+
+## Emilia-Romagna
+| Licenza | Dati |
+|---|---|
+[?]|[HTML](https://www.arpae.it/qualita-aria/bollettino-qa)
