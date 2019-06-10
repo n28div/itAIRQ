@@ -44,7 +44,7 @@ La regione fornisce i dati separatamente per provincia
 ### Provincia autonoma di Trento
 | Licenza | Dati |
 |---|---|
-[?]()|[JSON](https://appa.alpz.it/aria/)
+[?]|[JSON](https://appa.alpz.it/aria/)
 
 ## Friuli-Venezia Giuli
 | Licenza | Dati |
@@ -60,3 +60,8 @@ La regione fornisce i dati separatamente per provincia
 | Licenza | Dati |
 |---|---|
 [Italian Open Data License v2.0](https://www.dati.gov.it/content/italian-open-data-license-v20)|[JSON](http://www.arpat.toscana.it/temi-ambientali/aria/qualita-aria/bollettini/bollettino_json/regionale/16-05-2019)
+
+## Umbria
+| Licenza | Dati |
+|---|---|
+[?]|[HTML](http://www.arpa.umbria.it/monitoraggi/aria/Default.aspx)
