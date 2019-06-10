@@ -55,3 +55,8 @@ La regione fornisce i dati separatamente per provincia
 | Licenza | Dati |
 |---|---|
 [?]|[HTML](https://www.arpae.it/qualita-aria/bollettino-qa)
+
+## Toscana
+| Licenza | Dati |
+|---|---|
+[Italian Open Data License v2.0](https://www.dati.gov.it/content/italian-open-data-license-v20)|[JSON](http://www.arpat.toscana.it/temi-ambientali/aria/qualita-aria/bollettini/bollettino_json/regionale/16-05-2019)

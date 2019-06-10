@@ -34,7 +34,7 @@ class BaseRegion(object):
     
     def province_by_name(self, name) -> BaseProvince:
         for p in self.provinces:
-            if p.name == name:
+            if p.name.lower() == name.lower() or p.short_name.lower() == name.lower():
                 return p
 
     def add_province(self, province:BaseProvince):
