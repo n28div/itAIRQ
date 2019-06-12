@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.secret_key = settings.flask['SECRET_KEY']
 
 redis_server = redis.Redis(host=settings.redis['URL'], 
-                           port=settings.redis['PORT'], db=settings.redis['DB'])
+                           port=settings.redis['PORT'], password=settings.redis['PASSWORD'])
 redis_mutex = threading.Lock()
 
 class NotInCacheException(Exception):
