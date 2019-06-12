@@ -8,6 +8,7 @@ chardet==3.0.4
 Click==7.0
 Flask==1.0.3
 Flask-APScheduler==1.11.0
+Flask-Cors==3.0.8
 future==0.17.1
 gunicorn==19.9.0
 html-table-extractor==1.4.0

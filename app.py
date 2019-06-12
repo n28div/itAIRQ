@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, abort, url_for, Response
+from flask_cors import CORS
 import settings
 from datetime import datetime, timedelta
 from regions import regions_list
@@ -17,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = settings.flask['SECRET_KEY']
+# Setup cors header
+CORS(app)
 
 redis_server = redis.Redis(host=settings.redis['URL'], 
                            port=settings.redis['PORT'], password=settings.redis['PASSWORD'])
