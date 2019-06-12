@@ -22,7 +22,8 @@ class BaseRegion(object):
             else:
                 self.name = name
 
-        self._thread = threading.Thread(target=self._fetch_air_quality_routine)
+        self._thread = threading.Thread(target=self._fetch_air_quality_routine, 
+                                        name=f'{self.name}_fetcher')
         self._provinces = list()
 
     def __str__(self) -> str:

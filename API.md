@@ -3,8 +3,10 @@ La [specifica](./openapi.yaml) dell'API è stata progettata cercando di seguire 
 
 Ogni *endpoint* restituisce strutture di tipo `JSON` per cui è opportuno, in fase di richiesta HTTP, impostare l'header `Accept: application/json`.
 
-Le richieste potrebbero impiegare anche alcuni minuti prima di inviare una risposta: questo è dovuto principalmente al tempo richiesto nel ricevere le risposte dagli enti regionali (per maggiori informazioni si veda la sezione sulle [scelte architetturali](./ARCHITECTURE.md)).
-
+Data l'origine dei dati (raccolti da varie fonti diverse che hanno tempi di risposta alle volte *biblici*) una richiesta non è immediatamente disponibile almeno che essa non sia stata salvata in *cache*.
+Nel caso la richiesta non sia immediatamente disponibile si riceve come risposta un codice **202** (`Accepted`).
+È sarà quindi necessario tentare la richiesta alcuni minuti dopo per ricevere la risposta.
+Per informazioni sul funzionamento del sistema di *caching* si rimanda alla sezione sulle [scelte implementative]('/ARCHITECTURE.md).
 
  Endpoint | Metodo | Descrizione                            
  --- | --- | --- 
