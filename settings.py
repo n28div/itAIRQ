@@ -33,5 +33,5 @@ redis = {
 
 # Data configurations
 data = {
-    'REFRESH_INTERVAL': 60 * int(environ.get('REFRESH_INTERVAL'), 15) # in seconds (60s * 15m)
+    'REFRESH_INTERVAL': 60 * int(environ.get('REFRESH_INTERVAL', 15)) # in seconds (60s * 15m)
 }
