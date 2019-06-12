@@ -18,3 +18,8 @@ redis = {
     'DB': 0 if DEBUG else int(environ['REDIS_PORT']),
     'MEMORY': 5 if DEBUG else int(environ['REDIS_MEMORY']) # in megabytes
 }
+
+# Data configurations
+data = {
+    'REFRESH_INTERVAL': 60 * 15 # in seconds (60s * 15m)
+}

@@ -9,6 +9,11 @@ import json
 import threading
 import re
 import logging
+from flask_apscheduler import APScheduler
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = settings.flask['SECRET_KEY']
@@ -16,7 +21,6 @@ app.secret_key = settings.flask['SECRET_KEY']
 redis_server = redis.Redis(host=settings.redis['URL'], 
                            port=settings.redis['PORT'], db=settings.redis['DB'])
 redis_mutex = threading.Lock()
-
 
 class NotInCacheException(Exception):
     pass
@@ -188,6 +192,27 @@ def provincial_data(year, month, day, region_name, province_name):
     if province is None: abort(404)
     
     return jsonify(province)
+
+# Scheduled jobs
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+
+@scheduler.task('interval', id='refresh_data', seconds=settings.data['REFRESH_INTERVAL'])
+def refresh_regions_data():
+    """
+    Refresh data about today, yesterday and the day before yesterday
+    """
+    days = [
+        datetime.now(),
+        datetime.now() - timedelta(days=1),
+        datetime.now() - timedelta(days=2)
+    ]
+
+    logging.info('Refreshing data')
+    
+    for day in days:
+        fetch_region_air_quality(day)
 
 if __name__ == '__main__':
     app.run(debug=settings.DEBUG)
