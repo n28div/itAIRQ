@@ -13,13 +13,13 @@ flask = {
 
 # Redis configuration
 redis = {
-    'URL': 'localhost' if DEBUG else environ['REDIS_URL'],
-    'PORT': 6379 if DEBUG else int(environ['REDIS_PORT']),
-    'DB': 0 if DEBUG else int(environ['REDIS_PORT']),
-    'MEMORY': 5 if DEBUG else int(environ['REDIS_MEMORY']) # in megabytes
+    'URL': environ.get('REDIS_URL', 'localhost'),
+    'PORT': int(environ.get('REDIS_PORT', 6379)),
+    'DB': int(environ.get('REDIS_PORT', 0)),
+    'MEMORY':  int(environ.get('REDIS_MEMORY', 5)) # in megabytes
 }
 
 # Data configurations
 data = {
-    'REFRESH_INTERVAL': 60 * 15 # in seconds (60s * 15m)
+    'REFRESH_INTERVAL': 60 * int(environ.get('REFRESH_INTERVAL'), 15) # in seconds (60s * 15m)
 }
