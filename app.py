@@ -56,6 +56,8 @@ def fetch_region_air_quality(date:datetime) -> list:
         with dates_begin_fetched_mutex:
             dates_being_fetched.append(date)
 
+        logging.info('Fetching date %s', date.strftime('%Y/%m/%d'))
+
         regions = [r() for r in regions_list]
 
         air_quality = list()
@@ -68,7 +70,7 @@ def fetch_region_air_quality(date:datetime) -> list:
         for r in regions:
             # wait until region has fetched his data
             r.wait_for_quality()
-            logging.info('Fetched %s', r.name)
+            logging.info('Fetched region:%s for day:%s', r.name, date)
             air_quality.append({
                 'name': r.name,
                 'provinces': [
@@ -92,6 +94,7 @@ def fetch_region_air_quality(date:datetime) -> list:
                     if min_date is None or (date < min_date and date != today_fmt and date != yesterday_fmt and date != beforeyesterday_fmt):
                         min_date = date
                 
+                logging.info('Date %s will be removed', min_date)
                 redis_server.delete(min_date)
 
         date_fmt = date.strftime('%Y%m%d')
@@ -105,6 +108,8 @@ def fetch_region_air_quality(date:datetime) -> list:
         if date not in dates_being_fetched:
             thread = threading.Thread(target=runtime, args=(date,))
             thread.start()
+        else:
+            logging.info('Date %s is already being fetched' % date)
 
 def get_regions_air_quality(date: datetime, regions: list) -> list:
     """
