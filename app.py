@@ -22,6 +22,9 @@ redis_server = redis.Redis(host=settings.redis['URL'],
                            port=settings.redis['PORT'], password=settings.redis['PASSWORD'])
 redis_mutex = threading.Lock()
 
+dates_being_fetched = []
+dates_begin_fetched_mutex = threading.Lock()
+
 class NotInCacheException(Exception):
     pass
 
@@ -49,6 +52,9 @@ def fetch_region_air_quality(date:datetime) -> list:
     def runtime(date):
         if date > datetime.now():
             raise ValueError('Date is in the future!')
+
+        with dates_begin_fetched_mutex:
+            dates_being_fetched.append(date)
 
         regions = [r() for r in regions_list]
 
@@ -92,8 +98,13 @@ def fetch_region_air_quality(date:datetime) -> list:
         with redis_mutex:
             redis_server.set(date_fmt, json.dumps(air_quality))
 
-    thread = threading.Thread(target=runtime, args=(date,))
-    thread.start()
+        with dates_begin_fetched_mutex:
+            dates_being_fetched.remove(date)
+
+    with dates_begin_fetched_mutex:
+        if date not in dates_being_fetched:
+            thread = threading.Thread(target=runtime, args=(date,))
+            thread.start()
 
 def get_regions_air_quality(date: datetime, regions: list) -> list:
     """
