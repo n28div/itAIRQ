@@ -8,6 +8,7 @@ from .trentino_altoadige import TrentinoAltoAdige
 from .emiliaromagna import EmiliaRomagna
 from .toscana import Toscana
 from .umbria import Umbria
+from .abruzzo import Abruzzo
 
 regions_list = (
     ValleDAosta,
@@ -19,5 +20,6 @@ regions_list = (
     TrentinoAltoAdige,
     EmiliaRomagna,
     Toscana,
-    Umbria
+    Umbria,
+    Abruzzo
 )
