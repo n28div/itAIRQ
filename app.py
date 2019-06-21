@@ -132,7 +132,9 @@ def get_regions_air_quality(date: datetime, regions: list) -> list:
         fetch_region_air_quality(date)
         raise NotInCacheException()
     else:
-        regions = json.loads(regions_dict)
+        all_regions = json.loads(regions_dict)
+        interested_region_names = [x.name for x in regions]
+        regions = [x for x in all_regions if x['name'] in interested_region_names]
 
     for r in regions:
         r['href'] = absolute_url_for('regional_data', date, region_name=r['name'].lower())
@@ -145,12 +147,24 @@ def get_regions_air_quality(date: datetime, regions: list) -> list:
 
     return regions
 
-@app.route('/api/v1/<int:year>/<int:month>/<int:day>/', methods=['GET'])
+@app.route('/api/v1/dates', methods=['GET'])
+def dates():
+    """
+    Endpoint available dates
+    """
+    def parse_redis_key(key):
+        return datetime.strptime(key.decode('utf8'), '%Y%m%d').strftime('%Y-%m-%d')
+
+    with redis_mutex:
+        available_dates = redis_server.keys()
+
+    return jsonify([parse_redis_key(x) for x in available_dates])
+
+@app.route('/api/v1/<int:year>/<int:month>/<int:day>', methods=['GET'])
 def national_data(year, month, day):
     """
     Endpoint for national data
     """
-    response = list()
     date = datetime(year=year, month=month, day=day)
 
     # get quality of all region

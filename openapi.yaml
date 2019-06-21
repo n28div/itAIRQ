@@ -62,6 +62,9 @@ paths:
           links:
             GetRegionAirQuality:
               $ref: "#/components/links/GetRegion"
+          
+        "202":
+          description: Response currently not available but it's being fetched, retry later
 
   /{year}/{month}/{day}/{region}:
     get:
@@ -120,6 +123,9 @@ paths:
           links:
             GetProvinceAirQuality:
               $ref: "#/components/links/GetProvince"
+          
+        "202":
+          description: Response currently not available but it's being fetched, retry later
               
         "400":
           description: The date provided is in the future
@@ -174,6 +180,9 @@ paths:
           type: string
           
       responses:
+        "202":
+          description: Response currently not available but it's being fetched, retry later
+          
         "200":
           description: Response OK
           content:
@@ -186,6 +195,27 @@ paths:
         
         "404":
           description: Region or province not found
+  
+  /dates:
+    get:
+      tags:
+      - Air quality
+      summary: Available dates
+      description: > 
+        Sends the dates that are available to be fetched
+      operationId: getAvailableDates
+      
+      responses:
+        "200":
+          description: Response OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: '2019-12-31'
+      
   
 components:
   links:

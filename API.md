@@ -10,9 +10,10 @@ Per informazioni sul funzionamento del sistema di *caching* si rimanda alla sezi
 
  Endpoint | Metodo | Descrizione                            
  --- | --- | --- 
- [`/api/v1/{anno}/{mese}/{giorno}`](#Qualità-dell'aria-a-livello-nazionale)| GET | Invia la qualità dell'aria a livello nazionale                 
- [`/api/v1/{anno}/{mese}/{giorno}/{regione}`](#Qualità-dell'aria-a-livello-regionale)| GET | Invia la qualità dell'aria a livello regionale
- [`/api/v1/{anno}/{mese}/{giorno}/{regione}/{provincia}`]((#Qualità-dell'aria-a-livello-provinciale)) | GET | Invia la qualità dell'aria a livello provinciale        
+ [`/api/v1/{anno}/{mese}/{giorno}`](##Qualità-dell'aria-a-livello-nazionale)| GET | Invia la qualità dell'aria a livello nazionale                 
+ [`/api/v1/{anno}/{mese}/{giorno}/{regione}`](##Qualità-dell'aria-a-livello-regionale)| GET | Invia la qualità dell'aria a livello regionale
+ [`/api/v1/{anno}/{mese}/{giorno}/{regione}/{provincia}`]((##Qualità-dell'aria-a-livello-provinciale)) | GET | Invia la qualità dell'aria a livello provinciale        
+ [`/api/v1/dates`]((##Date-disponibili)) | GET | Invia le date disponibili istantaneamente nel sistema
  ---               
 
 ## Qualità dell'aria a livello nazionale
@@ -42,11 +43,11 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
 ```json
 [
   {
-    "href": "http://127.0.0.1:5000/api/v1/2019/1/1/valle%20d%27aosta", 
+    "href": "http://<url api>/api/v1/2019/1/1/valle%20d%27aosta", 
     "name": "Valle d'Aosta", 
     "provinces": [
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/valle%20d%27aosta/ao", 
+        "href": "http://<url api>/api/v1/2019/1/1/valle%20d%27aosta/ao", 
         "name": "Aosta", 
         "quality": {
           "C6H6": 2.2, 
@@ -62,11 +63,11 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
     ]
   }, 
   {
-    "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte", 
+    "href": "http://<url api>/api/v1/2019/1/1/piemonte", 
     "name": "Piemonte", 
     "provinces": [
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte/al", 
+        "href": "http://<url api>/api/v1/2019/1/1/piemonte/al", 
         "name": "Alessandria", 
         "quality": {
           "C6H6": 2.3, 
@@ -80,7 +81,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "AL"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte/at", 
+        "href": "http://<url api>/api/v1/2019/1/1/piemonte/at", 
         "name": "Asti", 
         "quality": {
           "C6H6": 3.3, 
@@ -94,7 +95,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "AT"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte/bi", 
+        "href": "http://<url api>/api/v1/2019/1/1/piemonte/bi", 
         "name": "Biella", 
         "quality": {
           "C6H6": 1.65, 
@@ -108,7 +109,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "BI"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte/cn", 
+        "href": "http://<url api>/api/v1/2019/1/1/piemonte/cn", 
         "name": "Cuneo", 
         "quality": {
           "C6H6": 1.77, 
@@ -122,7 +123,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "CN"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte/no", 
+        "href": "http://<url api>/api/v1/2019/1/1/piemonte/no", 
         "name": "Novara", 
         "quality": {
           "C6H6": 2.72, 
@@ -136,7 +137,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "NO"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte/to", 
+        "href": "http://<url api>/api/v1/2019/1/1/piemonte/to", 
         "name": "Torino", 
         "quality": {
           "C6H6": 2.29, 
@@ -150,7 +151,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "TO"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte/vc", 
+        "href": "http://<url api>/api/v1/2019/1/1/piemonte/vc", 
         "name": "Vercelli", 
         "quality": {
           "C6H6": 1.9, 
@@ -164,7 +165,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "VC"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/piemonte/vb", 
+        "href": "http://<url api>/api/v1/2019/1/1/piemonte/vb", 
         "name": "Verbano-Cusio-Ossola", 
         "quality": {
           "C6H6": null, 
@@ -180,11 +181,11 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
     ]
   }, 
   {
-    "href": "http://127.0.0.1:5000/api/v1/2019/1/1/liguria", 
+    "href": "http://<url api>/api/v1/2019/1/1/liguria", 
     "name": "Liguria", 
     "provinces": [
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/liguria/ge", 
+        "href": "http://<url api>/api/v1/2019/1/1/liguria/ge", 
         "name": "Genova", 
         "quality": {
           "C6H6": 2.03, 
@@ -198,7 +199,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "GE"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/liguria/im", 
+        "href": "http://<url api>/api/v1/2019/1/1/liguria/im", 
         "name": "Imperia", 
         "quality": {
           "C6H6": null, 
@@ -212,7 +213,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "IM"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/liguria/sp", 
+        "href": "http://<url api>/api/v1/2019/1/1/liguria/sp", 
         "name": "La Spezia", 
         "quality": {
           "C6H6": 1.6, 
@@ -226,7 +227,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "SP"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/liguria/sv", 
+        "href": "http://<url api>/api/v1/2019/1/1/liguria/sv", 
         "name": "Savona", 
         "quality": {
           "C6H6": 1.99, 
@@ -242,11 +243,11 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
     ]
   }, 
   {
-    "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia", 
+    "href": "http://<url api>/api/v1/2019/1/1/lombardia", 
     "name": "Lombardia", 
     "provinces": [
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/bg", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/bg", 
         "name": "Bergamo", 
         "quality": {
           "C6H6": 1.73, 
@@ -260,7 +261,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "BG"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/bs", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/bs", 
         "name": "Brescia", 
         "quality": {
           "C6H6": 1.9, 
@@ -274,7 +275,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "BS"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/co", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/co", 
         "name": "Como", 
         "quality": {
           "C6H6": 1.3, 
@@ -288,7 +289,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "CO"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/cr", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/cr", 
         "name": "Cremona", 
         "quality": {
           "C6H6": 2.4, 
@@ -302,7 +303,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "CR"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/lc", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/lc", 
         "name": "Lecco", 
         "quality": {
           "C6H6": 1.1, 
@@ -316,7 +317,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "LC"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/lo", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/lo", 
         "name": "Lodi", 
         "quality": {
           "C6H6": 1.1, 
@@ -330,7 +331,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "LO"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/mn", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/mn", 
         "name": "Mantova", 
         "quality": {
           "C6H6": 2.0, 
@@ -344,7 +345,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "MN"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/mi", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/mi", 
         "name": "Milano", 
         "quality": {
           "C6H6": 2.88, 
@@ -358,7 +359,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "MI"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/mb", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/mb", 
         "name": "Monza e della Brianza", 
         "quality": {
           "C6H6": null, 
@@ -372,7 +373,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "MB"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/pv", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/pv", 
         "name": "Pavia", 
         "quality": {
           "C6H6": 1.35, 
@@ -386,7 +387,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "PV"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/so", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/so", 
         "name": "Sondrio", 
         "quality": {
           "C6H6": 1.65, 
@@ -400,7 +401,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "SO"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/va", 
+        "href": "http://<url api>/api/v1/2019/1/1/lombardia/va", 
         "name": "Varese", 
         "quality": {
           "C6H6": null, 
@@ -416,11 +417,11 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
     ]
   }, 
   {
-    "href": "http://127.0.0.1:5000/api/v1/2019/1/1/veneto", 
+    "href": "http://<url api>/api/v1/2019/1/1/veneto", 
     "name": "Veneto", 
     "provinces": [
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/veneto/bl", 
+        "href": "http://<url api>/api/v1/2019/1/1/veneto/bl", 
         "name": "Belluno", 
         "quality": {
           "C6H6": null, 
@@ -434,7 +435,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "BL"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/veneto/pd", 
+        "href": "http://<url api>/api/v1/2019/1/1/veneto/pd", 
         "name": "Padova", 
         "quality": {
           "C6H6": null, 
@@ -448,7 +449,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "PD"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/veneto/ro", 
+        "href": "http://<url api>/api/v1/2019/1/1/veneto/ro", 
         "name": "Rovigo", 
         "quality": {
           "C6H6": null, 
@@ -462,7 +463,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "RO"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/veneto/tv", 
+        "href": "http://<url api>/api/v1/2019/1/1/veneto/tv", 
         "name": "Treviso", 
         "quality": {
           "C6H6": null, 
@@ -476,7 +477,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "TV"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/veneto/ve", 
+        "href": "http://<url api>/api/v1/2019/1/1/veneto/ve", 
         "name": "Venezia", 
         "quality": {
           "C6H6": null, 
@@ -490,7 +491,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "VE"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/veneto/vr", 
+        "href": "http://<url api>/api/v1/2019/1/1/veneto/vr", 
         "name": "Verona", 
         "quality": {
           "C6H6": null, 
@@ -504,7 +505,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "VR"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/veneto/vi", 
+        "href": "http://<url api>/api/v1/2019/1/1/veneto/vi", 
         "name": "Vicenza", 
         "quality": {
           "C6H6": null, 
@@ -520,11 +521,11 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
     ]
   }, 
   {
-    "href": "http://127.0.0.1:5000/api/v1/2019/1/1/friuli-venezia%20giulia", 
+    "href": "http://<url api>/api/v1/2019/1/1/friuli-venezia%20giulia", 
     "name": "Friuli-Venezia Giulia", 
     "provinces": [
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/friuli-venezia%20giulia/go", 
+        "href": "http://<url api>/api/v1/2019/1/1/friuli-venezia%20giulia/go", 
         "name": "Gorizia", 
         "quality": {
           "C6H6": null, 
@@ -538,7 +539,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "GO"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/friuli-venezia%20giulia/pn", 
+        "href": "http://<url api>/api/v1/2019/1/1/friuli-venezia%20giulia/pn", 
         "name": "Pordenone", 
         "quality": {
           "C6H6": null, 
@@ -552,7 +553,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "PN"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/friuli-venezia%20giulia/ts", 
+        "href": "http://<url api>/api/v1/2019/1/1/friuli-venezia%20giulia/ts", 
         "name": "Trieste", 
         "quality": {
           "C6H6": null, 
@@ -566,7 +567,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "TS"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/friuli-venezia%20giulia/ud", 
+        "href": "http://<url api>/api/v1/2019/1/1/friuli-venezia%20giulia/ud", 
         "name": "Udine", 
         "quality": {
           "C6H6": null, 
@@ -582,11 +583,11 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
     ]
   }, 
   {
-    "href": "http://127.0.0.1:5000/api/v1/2019/1/1/trentino%20alto-adige", 
+    "href": "http://<url api>/api/v1/2019/1/1/trentino%20alto-adige", 
     "name": "Trentino Alto-Adige", 
     "provinces": [
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/trentino%20alto-adige/tn", 
+        "href": "http://<url api>/api/v1/2019/1/1/trentino%20alto-adige/tn", 
         "name": "Trento", 
         "quality": {
           "C6H6": null, 
@@ -600,7 +601,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01`
         "short": "TN"
       }, 
       {
-        "href": "http://127.0.0.1:5000/api/v1/2019/1/1/trentino%20alto-adige/bz", 
+        "href": "http://<url api>/api/v1/2019/1/1/trentino%20alto-adige/bz", 
         "name": "Bolzano", 
         "quality": {
           "C6H6": null, 
@@ -836,7 +837,7 @@ Invia la *QA* di una provincia.
 
 **Richiesta di esempio**
 ```bash
-curl --header "Accept: application/json" http://<url>/api/v1/01/01/01/lombardia/mi
+curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01/lombardia/mi
 ```
 
 #### Risposte
@@ -848,7 +849,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/01/01/01/lombardia/
 
 ```json
 {
-  "href": "http://127.0.0.1:5000/api/v1/2019/1/1/lombardia/mi", 
+  "href": "http://<url api>/api/v1/2019/1/1/lombardia/mi", 
   "name": "Milano", 
   "quality": {
     "C6H6": 2.88, 
@@ -861,4 +862,26 @@ curl --header "Accept: application/json" http://<url>/api/v1/01/01/01/lombardia/
   }, 
   "short": "MI"
 }
+```
+
+## Date disponibili
+`/api/v1/dates`
+### GET
+Invia le date che attualmente sono disponibili istantaneamente nel sistema.
+
+**Richiesta di esempio**
+```bash
+curl --header "Accept: application/json" http://<url>/api/v1/dates
+```
+
+#### Risposte
+|Codice|Descrizione|
+|---|---|
+|200|Richiesta ok|
+
+```json
+[
+  "2019-01-01",
+  "2019-06-08"
+]
 ```
