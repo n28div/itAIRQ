@@ -66,7 +66,12 @@ La regione fornisce i dati separatamente per provincia
 |---|---|
 [?]|[HTML](http://www.arpa.umbria.it/monitoraggi/aria/Default.aspx)
 
-## Umbria
+## Abruzzo
 | Licenza | Dati |
 |---|---|
 [?]|[JSON](https://sira.artaabruzzo.it/#/stazioni-fisse)
+
+## Puglia
+| Licenza | Dati |
+|---|---|
+[?]|[CSV](http://arpa.puglia.it/pentaho/ViewAction?solution=ARPAPUGLIA&path=metacatalogo&action=meta-aria.xaction)
