@@ -81,3 +81,7 @@ La regione fornisce i dati separatamente per provincia
 |---|---|
 [?]|[CSV](http://www.arpacampania.it/web/guest/55)
 
+## Basilicata
+| Licenza | Dati |
+|---|---|
+[?]|[HTML](http://www.arpab.it/aria/qa.asp)
