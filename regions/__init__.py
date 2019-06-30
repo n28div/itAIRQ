@@ -9,6 +9,9 @@ from .emiliaromagna import EmiliaRomagna
 from .toscana import Toscana
 from .umbria import Umbria
 from .abruzzo import Abruzzo
+from .campania import Campania
+from .puglia import Puglia
+from .basilicata import Basilicata
 
 regions_list = (
     ValleDAosta,
@@ -21,5 +24,8 @@ regions_list = (
     EmiliaRomagna,
     Toscana,
     Umbria,
-    Abruzzo
+    Abruzzo,
+    Campania, 
+    Puglia,
+    Basilicata
 )
