@@ -7,7 +7,7 @@ import re
 
 class Puglia(BaseRegion):
     """
-    Implementation of Valle d'Aosta
+    Implementation of Puglia
     """
     name = "Puglia"
 

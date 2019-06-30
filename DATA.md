@@ -75,3 +75,9 @@ La regione fornisce i dati separatamente per provincia
 | Licenza | Dati |
 |---|---|
 [?]|[CSV](http://arpa.puglia.it/pentaho/ViewAction?solution=ARPAPUGLIA&path=metacatalogo&action=meta-aria.xaction)
+
+## Campania
+| Licenza | Dati |
+|---|---|
+[?]|[CSV](http://www.arpacampania.it/web/guest/55)
+
