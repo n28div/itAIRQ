@@ -99,6 +99,23 @@ class Fetcher(object):
         result = self._cache.get(day_fmt)
         return json.loads(result)
 
+    def fetch_day_high_priority(self, day: datetime):
+        """
+        Method used to fetch a result, if it's in cache it's update task is put in the queue
+        with an high priority
+        :param day: Day requested
+        """
+        # Check that date fetching is not pending
+        day_fmt = day.strftime('%Y%m%d')
+
+        with self._mutex:
+            if day_fmt not in self._pending_request_days:
+                request = FetchRequest(self, day)
+                self._requests.put_nowait((0, request))
+        
+        result = self._cache.get(day_fmt)
+        return json.loads(result)
+
     def fetched_result(self, day: datetime, result: dict):
         """
         Method called by a FetchRequest when the data is ready

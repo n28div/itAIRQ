@@ -89,7 +89,7 @@ def regional_data(year, month, day, region_name):
     
     try:
         regions = fetcher.fetch_day(date)
-        region = filter_regions(regions, [chosen_region])
+        region = filter_regions(regions, [chosen_region])[0]
     except cache.NotInCacheException:
         return Response(status=202)
     except ValueError:
@@ -112,7 +112,7 @@ def provincial_data(year, month, day, region_name, province_name):
     # Get the quality of the region
     try:
         regions = fetcher.fetch_day(date)
-        region = filter_regions(regions, [chosen_region])
+        region = filter_regions(regions, [chosen_region])[0]
     except cache.NotInCacheException:
         return Response(status=202)
     except ValueError:
@@ -145,7 +145,7 @@ def refresh_regions_data():
     logging.info('Refreshing data')
     
     for day in days:
-        fetcher.fetch_day(day)
+        fetcher.fetch_day_high_priority(day)
 
 if __name__ == '__main__':
     app.run(debug=settings.DEBUG)
