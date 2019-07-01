@@ -1,7 +1,7 @@
 # Architettura adottata
-L'API è stata scritta utilizzando il linguaggio *Python* e si divide in due *"macro-componenti"* differenti:
- * [I componenti che si occupano di scaricare i dati dai vari siti delle regioni](#scaricamento-dei-dati)
- * Il componente che si occupa di aggregare tutti i dati di tutte le regioni e fornirli tramite l'API RESTful
+L'API è stata scritta utilizzando il linguaggio *Python* e si divide in tre *"macro-componenti"* differenti:
+ * [I componenti che si occupano di reperire i dati](#scaricamento-dei-dati)
+ * [Il componente che si occupa di aggregare tutti i dati di tutte le regioni e fornirli tramite l'API RESTful](#server-http)
  * [Il sistema di *caching*](#caching) che lavora in stretto contatto con i due componenti
 
 ## Scaricamento dei dati
@@ -26,7 +26,7 @@ L'implementazione del server è interamente contenuta nel file [app.py](./app.py
 ## Caching
 Il sistema di caching è *delegato* al server [`redis`](https://redis.io) e viene utilizzato attraverso la libreria [redis-py](https://github.com/andymccurdy/redis-py).
 
-Un risultato viene inserito in cache salvando tutti i dati completi sulla qualità dell'aria nelle regioni e la data che tali dati rappresentano.
-L'invalidazione della cache avviene eliminando i dati più vecchi (quando la cache risulta piena).
+Una entry in cache rappresenta la qualità dell'aria in un dato giorno a livello nazionale.
+L'invalidazione della cache avviene è gestita eliminando i dati più vecchi (quando la cache risulta piena).
 
-Ogni mezz'ora il server si occuperà di aggiornare i dati relativi alla data odierna e ai due giorni precedenti in modo che siano sempre disponibili agli utenti.
+Ogni mezz'ora il server si occuperà di aggiornare i dati relativi alla data odierna e ai due giorni precedenti in modo che essi siano sempre disponibili e aggiornati per gli utenti.

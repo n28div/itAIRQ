@@ -1,7 +1,7 @@
 # Dati utilizzati
 I dati estrapolati provincia per provincia (qualora disponibili) sono:
  * [Benzene](https://it.wikipedia.org/wiki/Benzene) (C6H6) [µg/m3]
- * [Monossido di carbonio](https://it.wikipedia.org/wiki/Monossido_di_carbonio) (CO) [µg/m3] 
+ * [Monossido di carbonio](https://it.wikipedia.org/wiki/Monossido_di_carbonio) (CO) [mg/m3] 
  * [Diossido di Azoto](https://it.wikipedia.org/wiki/Diossido_di_azoto) (NO2) [µg/m3]
  * [Ozono](https://it.wikipedia.org/wiki/Ozono) (O3) [µg/m3]
  * [Pm10](https://it.wikipedia.org/wiki/PM10) (Pm10) [µg/m3]

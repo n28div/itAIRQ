@@ -1,11 +1,11 @@
 # Documentazione API
-La [specifica](./openapi.yaml) dell'API è stata progettata cercando di seguire il più possibile la specifica **RESTful** ed è inoltre conforme allo standard [Open API](https://github.com/OAI/OpenAPI-Specification/).
+La [specifica](./openapi.yaml) dell'API è stata progettata seguendo lo standard **RESTful** ed è inoltre conforme allo standard [Open API](https://github.com/OAI/OpenAPI-Specification/).
 
 Ogni *endpoint* restituisce strutture di tipo `JSON` per cui è opportuno, in fase di richiesta HTTP, impostare l'header `Accept: application/json`.
 
 Data l'origine dei dati (raccolti da varie fonti diverse che hanno tempi di risposta alle volte *biblici*) una richiesta non è immediatamente disponibile almeno che essa non sia stata salvata in *cache*.
-Nel caso la richiesta non sia immediatamente disponibile si riceve come risposta un codice **202** (`Accepted`).
-È sarà quindi necessario tentare la richiesta alcuni minuti dopo per ricevere la risposta.
+Nel caso la richiesta non sia immediatamente disponibile si riceve come risposta un codice **202** (`Accepted`) che significa che il server prenderà in carico la richiesta di scaricare la qualità dell'aria nel giorno specificato.
+La risposta vera è propria sarà quindi disponibile soltanto dopo alcuni minuti. 
 Per informazioni sul funzionamento del sistema di *caching* si rimanda alla sezione sulle [scelte implementative]('/ARCHITECTURE.md).
 
  Endpoint | Metodo | Descrizione                            
@@ -867,7 +867,7 @@ curl --header "Accept: application/json" http://<url>/api/v1/2019/01/01/lombardi
 ## Date disponibili
 `/api/v1/dates`
 ### GET
-Invia le date che attualmente sono disponibili istantaneamente nel sistema.
+Invia le date che sono presenti in cache la cui risposta sarebbe istantanea.
 
 **Richiesta di esempio**
 ```bash
