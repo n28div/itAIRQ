@@ -7,7 +7,14 @@ In fase di rilascio in produzione è necessario settare le seguenti variabili di
 |Var|Valore|Descrizione|
 |---|---|---|
 |`STAGE`|`prod`|Il server è in produzione
-|`FLASK_SECRET_KEY`|`<secret>`|Stringa pseudocasuale utilizzata da Flask per criptare per es. `sessionid`
+|`FLASK_SECRET_KEY`|`<stringa>`|Stringa pseudocasuale utilizzata da Flask per criptare per es. `sessionid`
 |`REDISCLOUD_URL`|`<url redis>`|Indirizzo in cui è presente il server Redis (comprensivo di username e password)
+
+È inoltre possibile modificare le seguenti variabili per modificare il comportamento del server:
+|Var|Valore|Descrizione|
+|---|---|---|
+|`REDIS_MEMORY`|`<intero>`| Dimensione della cache in mb
+|`REFRESH_INTERVAL`|`<intero>`| Minuti di attesa tra un'aggiornamento automatico e l'altro
+|`MAX_CONCURENT_FETCHER`|`<intero>`| Numero massimo di scaricatori di informazioni concorrenti
 
 Differentemente dalla fase di [sviluppo]('/USAGE.md) il server che si occupa di eseguire il codice dell'applicazione non è quello interno di Flask che mal si presta per ambienti di produzioni ma viene bensì utilizzato [gunicorn](https://gunicorn.org/).

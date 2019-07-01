@@ -21,12 +21,17 @@ Le librerie utilizzate in questa fase sono:
 Il server HTTP RESTful è stato sviluppato utilizzando la libreria [Flask](http://flask.pocoo.org/).
 Esso si occupa di aggregare i dati forniti da ogni [`BaseRegion`](regions/region.py) e di renderli disponibili attraverso richieste HTTP. 
 La documentazione delle richieste HTTP è reperibile alla [pagina dedicata](./API.md).
-L'implementazione del server è interamente contenuta nel file [app.py](./app.py).
+L'implementazione del server è interamente contenuta nel file [app.py](./app.py) e fa utilizzo dei moduli [`fetcher.py`](./fetcher.py) e [`cache.py`](./cache.py).
+
+Il modulo `fetcher.py` si occupa della gestione delle richieste di scaricamento dati. La gestione viene effettuata utilizzando una coda prioritaria in cui la priorità massima è data alle richieste che vengono effettuate automaticamente dal server.
+Le richieste degli utenti vengono gestite in ordine *FIFO*.
+Ogni richiesta viene generata da un utente quando richiede una data, sia che essa sia presente in cache che non sia presente.
 
 ## Caching
-Il sistema di caching è *delegato* al server [`redis`](https://redis.io) e viene utilizzato attraverso la libreria [redis-py](https://github.com/andymccurdy/redis-py).
+Il sistema di caching è *delegato* al server [`redis`](https://redis.io) utilizzato attraverso la libreria [redis-py](https://github.com/andymccurdy/redis-py) ed è implementato nel modulo [`cache.py`](./cache.py).
+
 
 Una entry in cache rappresenta la qualità dell'aria in un dato giorno a livello nazionale.
-L'invalidazione della cache avviene è gestita eliminando i dati più vecchi (quando la cache risulta piena).
+L'invalidazione della cache è gestita eliminando la data più vecchia (quando la cache risulta piena).
 
-Ogni mezz'ora il server si occuperà di aggiornare i dati relativi alla data odierna e ai due giorni precedenti in modo che essi siano sempre disponibili e aggiornati per gli utenti.
+Ad intervalli regolari il server si occuperà di aggiornare i dati relativi alla data odierna e ai due giorni precedenti in modo che essi siano sempre disponibili e aggiornati per gli utenti.
