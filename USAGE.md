@@ -1,5 +1,7 @@
 # Utilizzo della webapp
 ## Installare i requisiti
+**È richiesto un server Redis funzionante**
+
 ```bash
 pip install -r requirements.txt
 ```

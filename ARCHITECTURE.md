@@ -1,7 +1,7 @@
 # Architettura adottata
-L'API è stata scritta utilizzando il linguaggio *Python* e si divide in due *"macro-componenti"* differenti:
- * [I componenti che si occupano di scaricare i dati dai vari siti delle regioni](#scaricamento-dei-dati)
- * Il componente che si occupa di aggregare tutti i dati di tutte le regioni e fornirli tramite l'API RESTful
+L'API è stata scritta utilizzando il linguaggio *Python* e si divide in tre *"macro-componenti"* differenti:
+ * [I componenti che si occupano di reperire i dati](#scaricamento-dei-dati)
+ * [Il componente che si occupa di aggregare tutti i dati di tutte le regioni e fornirli tramite l'API RESTful](#server-http)
  * [Il sistema di *caching*](#caching) che lavora in stretto contatto con i due componenti
 
 ## Scaricamento dei dati
@@ -21,12 +21,17 @@ Le librerie utilizzate in questa fase sono:
 Il server HTTP RESTful è stato sviluppato utilizzando la libreria [Flask](http://flask.pocoo.org/).
 Esso si occupa di aggregare i dati forniti da ogni [`BaseRegion`](regions/region.py) e di renderli disponibili attraverso richieste HTTP. 
 La documentazione delle richieste HTTP è reperibile alla [pagina dedicata](./API.md).
-L'implementazione del server è interamente contenuta nel file [app.py](./app.py).
+L'implementazione del server è interamente contenuta nel file [app.py](./app.py) e fa utilizzo dei moduli [`fetcher.py`](./fetcher.py) e [`cache.py`](./cache.py).
+
+Il modulo `fetcher.py` si occupa della gestione delle richieste di scaricamento dati. La gestione viene effettuata utilizzando una coda prioritaria in cui la priorità massima è data alle richieste che vengono effettuate automaticamente dal server.
+Le richieste degli utenti vengono gestite in ordine *FIFO*.
+Ogni richiesta viene generata da un utente quando richiede una data, sia che essa sia presente in cache che non sia presente.
 
 ## Caching
-Il sistema di caching è *delegato* al server [`redis`](https://redis.io) e viene utilizzato attraverso la libreria [redis-py](https://github.com/andymccurdy/redis-py).
+Il sistema di caching è *delegato* al server [`redis`](https://redis.io) utilizzato attraverso la libreria [redis-py](https://github.com/andymccurdy/redis-py) ed è implementato nel modulo [`cache.py`](./cache.py).
 
-Un risultato viene inserito in cache salvando tutti i dati completi sulla qualità dell'aria nelle regioni e la data che tali dati rappresentano.
-L'invalidazione della cache avviene eliminando i dati più vecchi (quando la cache risulta piena).
 
-Ogni mezz'ora il server si occuperà di aggiornare i dati relativi alla data odierna e ai due giorni precedenti in modo che siano sempre disponibili agli utenti.
+Una entry in cache rappresenta la qualità dell'aria in un dato giorno a livello nazionale.
+L'invalidazione della cache è gestita eliminando la data più vecchia (quando la cache risulta piena).
+
+Ad intervalli regolari il server si occuperà di aggiornare i dati relativi alla data odierna e ai due giorni precedenti in modo che essi siano sempre disponibili e aggiornati per gli utenti.
