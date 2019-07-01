@@ -52,6 +52,26 @@ def filter_regions(regions: list, wanted_regions: list) -> list:
     filtered = [x for x in regions if x['name'].lower() in wanted_regions_names]
     return filtered
 
+def append_absolute_url(regions: list, date:datetime) -> list:
+    """
+    Append the absolute url to each region
+    :param regions: The list of region
+    :param date: The date of interest
+    :return: A new list with the newly added informations
+    """
+    for region in regions:
+        region['href'] = absolute_url_for('regional_data', 
+            date, 
+            region_name=region['name'])
+
+        for province in region['provinces']:
+            province['href'] = absolute_url_for('provincial_data', 
+                date, 
+                region_name=region['name'],
+                province_name=province['short'])
+    
+    return regions
+
 # Scheduled jobs
 scheduler = APScheduler()
 scheduler.init_app(app)
@@ -93,7 +113,7 @@ def dates():
     """
     Endpoint available dates
     """
-    return jsonify([datetime.strptime(x, '%Y%m%d').strftime('%Y-%m-%d') for x in cache.keys()])
+    return jsonify([datetime.strptime(x, '%Y%m%d').strftime('%Y-%m-%d') for x in cache.keys])
 
 @app.route('/api/v1/<int:year>/<int:month>/<int:day>', methods=['GET'])
 def national_data(year, month, day):
@@ -104,7 +124,7 @@ def national_data(year, month, day):
 
     # get quality of all region
     try:
-        regions = fetcher.fetch_day(date)
+        regions = append_absolute_url(fetcher.fetch_day(date), date)
     except cache.NotInCacheException:
         return Response(status=202)
     except ValueError:
@@ -125,7 +145,7 @@ def regional_data(year, month, day, region_name):
         abort(404)
     
     try:
-        regions = fetcher.fetch_day(date)
+        regions = append_absolute_url(fetcher.fetch_day(date), date)
         region = filter_regions(regions, [chosen_region])[0]
     except cache.NotInCacheException:
         return Response(status=202)
@@ -148,7 +168,7 @@ def provincial_data(year, month, day, region_name, province_name):
     
     # Get the quality of the region
     try:
-        regions = fetcher.fetch_day(date)
+        regions = append_absolute_url(fetcher.fetch_day(date), date)
         region = filter_regions(regions, [chosen_region])[0]
     except cache.NotInCacheException:
         return Response(status=202)
@@ -156,7 +176,9 @@ def provincial_data(year, month, day, region_name, province_name):
         abort(400) # date is in the future
 
     province = next(
-        (p for p in region['provinces'] if p['name'].lower() == province_name or p['short'].lower() == province_name), 
+        (p for p in region['provinces'] 
+         if p['name'].lower() == province_name.lower() or
+            p['short'].lower() == province_name.lower()), 
          None)
 
     if province is None: abort(404)
