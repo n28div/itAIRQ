@@ -93,6 +93,7 @@ class Fetcher(object):
 
         with self._mutex:
             if day_fmt not in self._pending_request_days:
+                self._pending_request_days.append(day)
                 request = FetchRequest(self, day)
                 self._requests.put_nowait((1 if already_in else 0, request))
         
@@ -110,6 +111,7 @@ class Fetcher(object):
 
         with self._mutex:
             if day_fmt not in self._pending_request_days:
+                self._pending_request_days.append(day)
                 request = FetchRequest(self, day)
                 self._requests.put_nowait((0, request))
         
@@ -123,4 +125,15 @@ class Fetcher(object):
         :param day: The day fetched
         :param result: The dict representing the result
         """
+        with self._mutex:
+            self._pending_request_days.remove(day)
+        
         self._cache.put(day.strftime('%Y%m%d'), json.dumps(result))
+
+    @property
+    def pending(self) -> int:
+        """
+        :return: Pending requests
+        """
+        with self._mutex:
+            return len(self._pending_request_days)
