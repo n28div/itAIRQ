@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>itAIRQ status</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica', sans;
+      color: #212121;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .container>* {
+      margin: 0.3em;
+    }
+
+    .horizontally-scrollable-list {
+      height: 6em;
+      width: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+
+    .horizontally-scrollable-list>li {
+      display: inline-block;
+      margin: 0.2em;
+    }
+
+    div>* {
+      padding: 0.3em;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .available-date {
+      background-color: #9CCC65;
+      border-radius: 0.3em;
+      padding: 0.4em;
+    }
+
+    .available-date:hover {
+      background-color: #2E7D32;
+      border-radius: 0.3em;
+      padding: 0.4em;
+    }
+
+    .available-region {
+      background-color: #EF5350;
+      border-radius: 0.3em;
+      padding: 0.4em;
+    }
+
+    .available-region:hover {
+      background-color: #C62828;
+      border-radius: 0.3em;
+      padding: 0.4em;
+    }
+
+    .logo {
+      background-color: #212121;
+      padding: 0.3em;
+      border-radius: 0.3em;
+    }
+
+    .it {
+      color: #9CCC65;
+    }
+
+    .AIR {
+      color: white;
+    }
+
+    .Q {
+      color: #C62828;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="header">
+      <h1>
+        <span class="logo">
+          <span class="it">it</span><span class="AIR">AIR</span><span class="Q">Q</span>
+        </span>
+      </h1>
+    </nav>
+
+    <section>
+      <div id="availableDates">
+        <h2>
+          Date disponibili
+        </h2>
+        <ul class="horizontally-scrollable-list">
+          {% for date in available_dates %}
+          <li class="available-date">
+            <a href="/api/v1/{{ date.strftime('%Y/%m/%d') }}">
+              {{ date.strftime('%d/%m/%Y') }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div id="availableRegions">
+        <h2>
+          Regioni implementate
+        </h2>
+        <ul class="horizontally-scrollable-list">
+          {% for region in available_regions %}        
+          <li class="available-region">
+            <a href="/api/v1/{{ available_dates[0].strftime('%Y/%m/%d')}}/{{ region }}">
+              {{ region }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <div id="lastAuthomaticUpdate">
+        <p>Ultimo aggiornamento automatico: <strong>{{ last_automatic_update }}</strong></p>
+      </div>
+      <div id="credits">
+        <a href="https://github.com/n28div/itAIRQ"><i class="fab fa-github"></i></a>
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>

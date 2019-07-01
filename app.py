@@ -1,5 +1,5 @@
 import settings
-from flask import Flask, request, jsonify, abort, url_for, Response
+from flask import Flask, request, jsonify, abort, url_for, Response, render_template
 from flask_cors import CORS
 from cache import Cache
 from fetcher import Fetcher
@@ -12,6 +12,7 @@ import threading
 import re
 import logging
 from flask_apscheduler import APScheduler
+from datetime import datetime
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s - %(message)s')
@@ -50,6 +51,41 @@ def filter_regions(regions: list, wanted_regions: list) -> list:
     wanted_regions_names = [x.name.lower() for x in wanted_regions]
     filtered = [x for x in regions if x['name'].lower() in wanted_regions_names]
     return filtered
+
+# Scheduled jobs
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+scheduler_last_run = None
+
+@scheduler.task('interval', id='refresh_data', seconds=settings.data['REFRESH_INTERVAL'])
+def refresh_regions_data():
+    """
+    Refresh data about today, yesterday and the day before yesterday
+    """
+    scheduler_last_run = datetime.now()
+    days = [
+        datetime.now(),
+        datetime.now() - timedelta(days=1),
+        datetime.now() - timedelta(days=2)
+    ]
+
+    logging.info('Refreshing data')
+    
+    for day in days:
+        fetcher.fetch_day_high_priority(day)
+
+@app.route('/', methods=['GET'])
+def index():
+    """
+    Index HTML page with informations about the status
+    """
+    context = {
+        'available_dates': [datetime.strptime(x, '%Y%m%d') for x in sorted(cache.keys)],
+        'available_regions': sorted([x.name for x in regions_list]),
+        'last_automatic_update': scheduler_last_run
+    }
+    return render_template('index.html', **context)
 
 @app.route('/api/v1/dates', methods=['GET'])
 def dates():
@@ -125,27 +161,6 @@ def provincial_data(year, month, day, region_name, province_name):
     if province is None: abort(404)
     
     return jsonify(province)
-
-# Scheduled jobs
-scheduler = APScheduler()
-scheduler.init_app(app)
-scheduler.start()
-
-@scheduler.task('interval', id='refresh_data', seconds=settings.data['REFRESH_INTERVAL'])
-def refresh_regions_data():
-    """
-    Refresh data about today, yesterday and the day before yesterday
-    """
-    days = [
-        datetime.now(),
-        datetime.now() - timedelta(days=1),
-        datetime.now() - timedelta(days=2)
-    ]
-
-    logging.info('Refreshing data')
-    
-    for day in days:
-        fetcher.fetch_day_high_priority(day)
 
 if __name__ == '__main__':
     app.run(debug=settings.DEBUG)
