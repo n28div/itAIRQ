@@ -8,6 +8,8 @@ Nel caso la richiesta non sia immediatamente disponibile si riceve come risposta
 La risposta vera è propria sarà quindi disponibile soltanto dopo alcuni minuti. 
 Per informazioni sul funzionamento del sistema di *caching* si rimanda alla sezione sulle [scelte implementative]('/ARCHITECTURE.md).
 
+Ogni endpoint, tramite l'estensione di Flask [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/), implementa l'header `Access-Control-Allow-Origin` ([CORS](https://developer.mozilla.org/it/docs/Web/HTTP/CORS)) per permettere l'utilizzo delle api tramite richieste *cross-site*.
+
  Endpoint | Metodo | Descrizione                            
  --- | --- | --- 
  [`/api/v1/{anno}/{mese}/{giorno}`](##Qualità-dell'aria-a-livello-nazionale)| GET | Invia la qualità dell'aria a livello nazionale                 
