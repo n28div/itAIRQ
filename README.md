@@ -9,6 +9,8 @@ I dati sono forniti dagli enti *ARPA* (**A**genzia **R**egionale per la **P**rot
 Sviluppato per l'esame di [Piattaforme per la gestione digitale del territorio](https://www.uniurb.it/insegnamenti-e-programmi/255577)
 da **Nicolas Lazzari** matricola *284721*.
 
+È possibile trovare un client che utilizza tale servizio all'url [n28div.github.io](https://n28div.github.io/itaria/)
+
 ---
 * [Architettura e scelte implementative](./ARCHITECTURE.md)
 
