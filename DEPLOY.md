@@ -11,6 +11,7 @@ In fase di rilascio in produzione è necessario settare le seguenti variabili di
 |`REDISCLOUD_URL`|`<url redis>`|Indirizzo in cui è presente il server Redis (comprensivo di username e password)
 
 È inoltre possibile modificare le seguenti variabili per modificare il comportamento del server:
+
 |Var|Valore|Descrizione|
 |---|---|---|
 |`REDIS_MEMORY`|`<intero>`| Dimensione della cache in mb
