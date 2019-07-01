@@ -106,6 +106,7 @@
       </h1>
     </nav>
 
+    {% if available_dates|length > 0 %}
     <section>
       <div id="availableDates">
         <h2>
@@ -136,6 +137,7 @@
         </ul>
       </div>
     </section>
+    {% endif %}
 
     <footer>
       <div>
