@@ -83,7 +83,8 @@ def index():
     context = {
         'available_dates': [datetime.strptime(x, '%Y%m%d') for x in sorted(cache.keys)],
         'available_regions': sorted([x.name for x in regions_list]),
-        'last_automatic_update': scheduler_last_run
+        'last_automatic_update': scheduler_last_run,
+        'pending_updates': fetcher.pending
     }
     return render_template('index.html', **context)
 

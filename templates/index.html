@@ -31,9 +31,9 @@
     }
 
     .horizontally-scrollable-list {
-      height: 6em;
+      height: 10em;
       width: 100%;
-      overflow-y: scroll;
+      overflow-y: auto;
       overflow-x: hidden;
     }
 
@@ -138,8 +138,9 @@
     </section>
 
     <footer>
-      <div id="lastAuthomaticUpdate">
-        <p>Ultimo aggiornamento automatico: <strong>{{ last_automatic_update }}</strong></p>
+      <div>
+        <p><i class="far fa-clock"></i> <strong>{{ last_automatic_update }}</strong></p>
+        <p><i class="fas fa-sync"></i> <strong>{{ pending_updates }}</strong></p>   
       </div>
       <div id="credits">
         <a href="https://github.com/n28div/itAIRQ"><i class="fab fa-github"></i></a>
