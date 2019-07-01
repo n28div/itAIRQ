@@ -66,7 +66,7 @@ class Fetcher(object):
         self._cache = cache
         self._thread = threading.Thread(name='Fetcher', target=self.run)
         # Request queue
-        self._requests = PriorityQueue(maxsize=settings.data['MAX_CONCURENT_FETCHER'])
+        self._requests = PriorityQueue(settings.data['MAX_CONCURENT_FETCHER'])
         
         self._pending_request_days = list()
         self._mutex = threading.RLock()
@@ -95,7 +95,7 @@ class Fetcher(object):
             if day_fmt not in self._pending_request_days:
                 self._pending_request_days.append(day)
                 request = FetchRequest(self, day)
-                self._requests.put_nowait((1 if already_in else 0, request))
+                self._requests.put((1 if already_in else 0, request))
         
         result = self._cache.get(day_fmt)
         return json.loads(result)
@@ -113,7 +113,7 @@ class Fetcher(object):
             if day_fmt not in self._pending_request_days:
                 self._pending_request_days.append(day)
                 request = FetchRequest(self, day)
-                self._requests.put_nowait((0, request))
+                self._requests.put((0, request))
         
         result = self._cache.get(day_fmt)
         return json.loads(result)
